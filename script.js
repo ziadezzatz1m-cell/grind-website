@@ -101,6 +101,21 @@ else {
   lightStatement();
 }
 
+// Instagram testimonials: load the embed script only when the section is near
+const igSection = document.getElementById("testimonials");
+const igObserver = new IntersectionObserver(
+  (entries) => {
+    if (!entries[0].isIntersecting) return;
+    igObserver.disconnect();
+    const s = document.createElement("script");
+    s.src = "https://www.instagram.com/embed.js";
+    s.async = true;
+    document.body.append(s);
+  },
+  { rootMargin: "800px 0px" }
+);
+igObserver.observe(igSection);
+
 // Card spotlight follows the cursor
 document.querySelectorAll(".card").forEach((card) => {
   card.addEventListener("pointermove", (e) => {
