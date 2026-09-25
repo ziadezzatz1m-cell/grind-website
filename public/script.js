@@ -1,3 +1,46 @@
+// ---------- Analytics ----------
+// Paste the IDs here to switch tracking on. Leave empty to keep it off.
+const ANALYTICS = {
+  googleAnalyticsId: "", // e.g. "G-XXXXXXXXXX"
+  clarityProjectId: "", // e.g. "abcd1234ef"
+};
+
+if (ANALYTICS.googleAnalyticsId) {
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.googleAnalyticsId}`;
+  document.head.append(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag("js", new Date());
+  gtag("config", ANALYTICS.googleAnalyticsId);
+}
+
+if (ANALYTICS.clarityProjectId) {
+  (function (c, l, a, r, i, t, y) {
+    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+    t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  })(window, document, "clarity", "script", ANALYTICS.clarityProjectId);
+}
+
+const track = (name, params = {}) => {
+  if (window.gtag) gtag("event", name, params);
+  if (window.clarity) clarity("event", name);
+};
+
+// Which "Book a call" button was clicked: navbar, hero, system, contact or floating
+document.querySelectorAll('a[href*="calendly.com"]').forEach((link) => {
+  link.addEventListener("click", () => {
+    const placement = link.closest("header")
+      ? "navbar"
+      : link.id === "floatCta"
+        ? "floating"
+        : link.closest("section")?.id || "hero";
+    track("book_call_click", { placement });
+  });
+});
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Footer year
@@ -129,6 +172,7 @@ document.querySelectorAll(".video-item").forEach((item) => {
   const video = item.querySelector("video");
   item.querySelector(".play-btn").addEventListener("click", () => video.play());
   video.addEventListener("play", () => item.classList.add("playing"));
+  video.addEventListener("play", () => track("testimonial_video_play"), { once: true });
 });
 
 // Card spotlight follows the cursor

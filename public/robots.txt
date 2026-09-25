@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://grind-website.ziadezzatz1m.workers.dev/sitemap.xml

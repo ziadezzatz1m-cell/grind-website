@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.join(__dirname, "public");
-const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".mp4": "video/mp4", ".webp": "image/webp" };
+const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".mp4": "video/mp4", ".webp": "image/webp", ".xml": "application/xml", ".txt": "text/plain" };
 
 http
   .createServer((req, res) => {
