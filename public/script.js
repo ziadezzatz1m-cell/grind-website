@@ -175,6 +175,53 @@ document.querySelectorAll(".video-item").forEach((item) => {
   video.addEventListener("play", () => track("testimonial_video_play"), { once: true });
 });
 
+// Reviews carousel: slides on its own, pauses while someone is interacting
+const reviews = document.getElementById("reviews");
+const reviewItems = [...reviews.children];
+const dots = document.getElementById("reviewsDots");
+reviewItems.forEach(() => dots.append(document.createElement("i")));
+
+const reviewPos = (item) => item.offsetLeft - reviews.offsetLeft - parseFloat(getComputedStyle(reviews).paddingLeft);
+const reviewsAtEnd = () => reviews.scrollLeft + reviews.clientWidth >= reviews.scrollWidth - 4;
+const currentReview = () => {
+  if (reviews.scrollLeft > 4 && reviewsAtEnd()) return reviewItems.length - 1;
+  const left = reviews.scrollLeft;
+  let best = 0;
+  reviewItems.forEach((item, i) => {
+    if (Math.abs(reviewPos(item) - left) < Math.abs(reviewPos(reviewItems[best]) - left)) best = i;
+  });
+  return best;
+};
+const goToReview = (i) => {
+  const index = i >= reviewItems.length || (i > currentReview() && reviewsAtEnd()) ? 0 : (i + reviewItems.length) % reviewItems.length;
+  reviews.scrollTo({ left: reviewPos(reviewItems[index]) });
+};
+const updateDots = () => {
+  const i = currentReview();
+  [...dots.children].forEach((d, j) => d.classList.toggle("active", i === j));
+};
+reviews.addEventListener("scroll", () => requestAnimationFrame(updateDots), { passive: true });
+updateDots();
+
+let reviewsPausedUntil = 0;
+let reviewsInView = false;
+const pauseReviews = (ms = 8000) => (reviewsPausedUntil = Date.now() + ms);
+["pointerdown", "touchstart", "wheel", "mouseenter"].forEach((ev) =>
+  reviews.addEventListener(ev, () => pauseReviews(), { passive: true })
+);
+reviews.addEventListener("mousemove", () => pauseReviews(), { passive: true });
+document.getElementById("reviewsPrev").addEventListener("click", () => { pauseReviews(); goToReview(currentReview() - 1); });
+document.getElementById("reviewsNext").addEventListener("click", () => { pauseReviews(); goToReview(currentReview() + 1); });
+new IntersectionObserver((e) => (reviewsInView = e[0].isIntersecting), { threshold: 0.3 }).observe(reviews);
+
+setInterval(() => {
+  const watching =
+    document.activeElement?.tagName === "IFRAME" || // tapped into an Instagram reel
+    reviewItems.some((item) => { const v = item.querySelector("video"); return v && !v.paused; });
+  if (!reviewsInView || document.hidden || watching || Date.now() < reviewsPausedUntil) return;
+  goToReview(currentReview() + 1);
+}, 3500);
+
 // Card spotlight follows the cursor
 document.querySelectorAll(".card").forEach((card) => {
   card.addEventListener("pointermove", (e) => {

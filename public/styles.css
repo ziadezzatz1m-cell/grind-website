@@ -290,7 +290,10 @@ h1, h2, h3 { font-family: var(--font-head); letter-spacing: -0.03em; color: var(
   padding: 8px 0;
   animation: marquee 40s linear infinite;
 }
-.brands-strip:hover .brands-track { animation-play-state: paused; }
+/* Pause on hover only with a real mouse; on phones a tap would freeze the strip */
+@media (hover: hover) and (pointer: fine) {
+  .brands-strip:hover .brands-track { animation-play-state: paused; }
+}
 .brands-track img {
   width: 120px;
   height: 120px;
@@ -494,14 +497,39 @@ h2 .accent { color: var(--ink); }
 }
 .swipe-hint span { display: inline-block; color: var(--green); animation: nudge 1.4s ease-in-out infinite; }
 .nav-cta { display: none; }
+/* Auto-sliding carousel (script.js advances it; users can still swipe/drag) */
 .ig-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 20px;
   align-items: start;
-  max-width: 880px;
-  margin: 0 auto;
+  margin: 0 -20px;
+  padding: 4px 20px 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent);
 }
+.ig-grid::-webkit-scrollbar { display: none; }
+.ig-grid .ig-item { flex: 0 0 340px; scroll-snap-align: start; }
+
+.carousel-controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 22px; }
+.carousel-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: #fff;
+  color: var(--ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.carousel-btn:hover { border-color: var(--green); background: var(--green); color: #fff; }
+.carousel-dots { display: flex; gap: 8px; }
+.carousel-dots i { width: 8px; height: 8px; border-radius: 8px; background: var(--line-2); transition: width 0.3s, background 0.3s; }
+.carousel-dots i.active { width: 24px; background: var(--green); }
 .video-item { position: relative; background: var(--ink); }
 .video-item video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: var(--ink); }
 .play-btn {
@@ -707,19 +735,10 @@ h2 .accent { color: var(--ink); }
   .card h3 { font-size: 16.5px; }
 
   /* Testimonials: swipeable row */
-  .ig-grid {
-    display: flex;
-    gap: 14px;
-    max-width: none;
-    margin: 0 -20px;
-    padding: 4px 20px 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-  .ig-grid::-webkit-scrollbar { display: none; }
+  .ig-grid { gap: 14px; }
   .ig-grid .ig-item { flex: 0 0 min(326px, 86vw); scroll-snap-align: center; }
   .swipe-hint { display: block; }
+  .carousel-btn { display: none; }
 
   .team { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .member { padding: 28px 12px; }
@@ -733,5 +752,7 @@ h2 .accent { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .headline .word > span, .anim { transform: none; opacity: 1; }
-  .marquee-track { animation: none; }
+  /* The client wants the logo and keyword strips moving on every phone */
+  .marquee-track { animation-duration: 38s !important; animation-iteration-count: infinite !important; }
+  .brands-track { animation-duration: 40s !important; animation-iteration-count: infinite !important; }
 }
