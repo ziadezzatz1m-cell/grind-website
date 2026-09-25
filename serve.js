@@ -1,4 +1,4 @@
-// Tiny local preview server (not needed on Vercel)
+﻿// Tiny local preview server (not needed on Vercel)
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -16,4 +16,4 @@ http
       res.end(data);
     });
   })
-  .listen(5173, () => console.log("http://localhost:5173"));
+  .listen(5174, () => console.log("http://localhost:5174"));
