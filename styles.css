@@ -671,7 +671,10 @@ h2 .accent { color: var(--ink); }
   .navbar > .btn { display: none; }
   .cards { grid-template-columns: repeat(2, 1fr); }
   .card { min-height: 150px; }
-  .team, .ig-grid { grid-template-columns: 1fr; }
+  .ig-grid { grid-template-columns: 1fr; }
+  .team { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .member { padding: 28px 12px; }
+  .member h3 { font-size: 17px; }
   .ig-grid { max-width: 420px; }
   .footer-inner { justify-content: center; text-align: center; }
   .float-cta { left: 16px; right: 16px; justify-content: center; }
