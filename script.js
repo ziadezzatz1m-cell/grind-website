@@ -110,11 +110,10 @@ else {
   lightStatement();
 }
 
-// Instagram testimonials: load the embed script only when the section is near
-const igSection = document.getElementById("testimonials");
+// Instagram embeds: load the embed script only when the first one is near
 const igObserver = new IntersectionObserver(
   (entries) => {
-    if (!entries[0].isIntersecting) return;
+    if (!entries.some((e) => e.isIntersecting)) return;
     igObserver.disconnect();
     const s = document.createElement("script");
     s.src = "https://www.instagram.com/embed.js";
@@ -123,7 +122,7 @@ const igObserver = new IntersectionObserver(
   },
   { rootMargin: "800px 0px" }
 );
-igObserver.observe(igSection);
+document.querySelectorAll(".instagram-media").forEach((el) => igObserver.observe(el));
 
 // Video testimonials: custom play button
 document.querySelectorAll(".video-item").forEach((item) => {

@@ -437,6 +437,18 @@ h2 .accent { color: var(--ink); }
 }
 .flow-end h3 { color: var(--green); }
 
+/* System video */
+.system-video {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 64px;
+  align-items: center;
+  max-width: 980px;
+  margin: 100px auto 0;
+}
+.system-copy h3 { font-size: clamp(28px, 3.4vw, 42px); line-height: 1.1; margin-bottom: 16px; }
+.system-copy p { color: var(--muted); margin-bottom: 30px; max-width: 440px; }
+
 /* ---------- Cards ---------- */
 .cards {
   display: grid;
@@ -629,6 +641,8 @@ h2 .accent { color: var(--ink); }
   .flow-line::before { background: linear-gradient(180deg, transparent, var(--green)); transform: scaleY(0); transform-origin: top; }
   .flow.visible .flow-line::before { transform: scaleY(1); }
   .flow-pulse { display: none; }
+  .system-video { grid-template-columns: 1fr; gap: 36px; max-width: 420px; margin-top: 70px; text-align: center; }
+  .system-copy p { margin-inline: auto; }
   .flow-node { display: grid; grid-template-columns: 68px 1fr; column-gap: 20px; text-align: left; padding: 12px 0; align-items: center; }
   .flow-node .n { grid-row: span 2; margin: 0; }
   .flow-node h3 { align-self: end; margin: 0; }
