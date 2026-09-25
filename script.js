@@ -29,6 +29,15 @@ const splitWords = (node) => {
 };
 splitWords(headline);
 
+// Brands strip: duplicate logos so the loop is seamless
+const brandsTrack = document.getElementById("brandsTrack");
+[...brandsTrack.children].forEach((img) => {
+  const copy = img.cloneNode();
+  copy.alt = "";
+  copy.setAttribute("aria-hidden", "true");
+  brandsTrack.append(copy);
+});
+
 // Navbar + floating CTA on scroll
 const navWrap = document.querySelector(".nav-wrap");
 const floatCta = document.getElementById("floatCta");
