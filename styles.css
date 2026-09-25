@@ -1,13 +1,15 @@
 :root {
-  --bg: #07080a;
-  --bg-2: #0d0f12;
-  --card: #111317;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-2: rgba(255, 255, 255, 0.14);
-  --text: #e9ebee;
-  --muted: #8b9098;
-  --accent: #c8ff2e;
-  --accent-rgb: 200, 255, 46;
+  /* Grind brand palette (from the partnership agreement) */
+  --bg: #0b0c0d;
+  --bg-2: #111315;
+  --card: #15171a;
+  --line: rgba(229, 230, 232, 0.08);
+  --line-2: rgba(229, 230, 232, 0.16);
+  --text: #e5e6e8;
+  --muted: #9a9ea2;
+  --dim: #5a5f64;
+  --accent: #f7f7f7;
+  --accent-rgb: 247, 247, 247;
   --radius: 18px;
   --font-head: "Sora", system-ui, sans-serif;
   --font-body: "Outfit", system-ui, sans-serif;
@@ -147,7 +149,7 @@ h1, h2, h3 { font-family: var(--font-head); letter-spacing: -0.03em; color: #fff
   top: 8%;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.1), transparent 70%);
   animation: breathe 7s ease-in-out infinite;
 }
 
@@ -198,8 +200,7 @@ h1, h2, h3 { font-family: var(--font-head); letter-spacing: -0.03em; color: #fff
 }
 .headline em {
   font-style: normal;
-  color: var(--accent);
-  text-shadow: 0 0 40px rgba(var(--accent-rgb), 0.35);
+  color: var(--dim);
 }
 
 .tagline {
@@ -309,7 +310,8 @@ h1, h2, h3 { font-family: var(--font-head); letter-spacing: -0.03em; color: #fff
   margin-bottom: 18px;
 }
 
-h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; }
+h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; color: var(--dim); }
+h2 .accent, .cta h2 { color: #fff; }
 
 .section-intro { color: var(--muted); margin-top: 18px; font-size: 19px; }
 
@@ -324,7 +326,7 @@ h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; }
   letter-spacing: -0.02em;
 }
 .statement .w { color: rgba(255, 255, 255, 0.14); transition: color 0.35s ease; }
-.statement .w.lit { color: #fff; }
+.statement .w.lit { color: var(--muted); }
 .statement .w.hl.lit { color: var(--accent); }
 
 /* ---------- System flow ---------- */
@@ -486,12 +488,12 @@ h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; }
   bottom: -220px;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.16), transparent 70%);
   animation: breathe 6s ease-in-out infinite;
 }
 .cta > *:not(.glow) { position: relative; }
 .cta h2 { font-size: clamp(38px, 6vw, 76px); margin: 26px 0 18px; }
-.cta h2 em { font-style: normal; color: var(--accent); }
+.cta h2 em { font-style: normal; color: var(--dim); }
 .cta p { color: var(--muted); max-width: 520px; margin: 0 auto 38px; }
 
 /* ---------- Footer ---------- */
@@ -518,7 +520,8 @@ h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; }
   transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
 }
 .float-cta.show { transform: none; }
-.float-cta .pulse { background: #1a9b3c; box-shadow: none; }
+.float-cta { background: var(--accent); color: var(--bg-2); }
+.float-cta .pulse { background: var(--bg-2); box-shadow: none; }
 
 /* ---------- Reveal ---------- */
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1); }
