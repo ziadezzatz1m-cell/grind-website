@@ -116,6 +116,13 @@ const igObserver = new IntersectionObserver(
 );
 igObserver.observe(igSection);
 
+// Video testimonials: custom play button
+document.querySelectorAll(".video-item").forEach((item) => {
+  const video = item.querySelector("video");
+  item.querySelector(".play-btn").addEventListener("click", () => video.play());
+  video.addEventListener("play", () => item.classList.add("playing"));
+});
+
 // Card spotlight follows the cursor
 document.querySelectorAll(".card").forEach((card) => {
   card.addEventListener("pointermove", (e) => {
